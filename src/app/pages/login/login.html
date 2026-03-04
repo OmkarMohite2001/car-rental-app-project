@@ -44,15 +44,6 @@
         Live KPI tracking and reports
       </div>
     </div>
-
-    <div class="demo-card">
-      <div class="demo-head">
-        <span class="material-icons">smart_toy</span>
-        Demo Access
-      </div>
-      <p>User: <strong>admin</strong> | Pass: <strong>admin</strong></p>
-      <button type="button" class="demo-btn" (click)="fillDemo()">Use Demo Credentials</button>
-    </div>
   </section>
 
   <section class="auth-side">
@@ -76,25 +67,12 @@
       </button>
     </div>
 
-    <div class="preset-row">
-      <span>Accent</span>
-      <button
-        type="button"
-        class="preset-btn"
-        *ngFor="let p of presets"
-        [class.active]="brand() === p.id"
-        (click)="setBrand(p.id)"
-      >
-        {{ p.label }}
-      </button>
+    <div class="auth-copy">
+      <h2 *ngIf="isLogin()">Sign In to RentX</h2>
+      <h2 *ngIf="activeTab() === 'register'">Create Account</h2>
+      <h2 *ngIf="isRecover()">Recover Access</h2>
+      <p *ngIf="isRecover()">Reset your password in two simple steps.</p>
     </div>
-
-    <p class="auth-sub" *ngIf="!isRecover()">
-      Welcome back. Continue to your rental operations workspace.
-    </p>
-    <p class="auth-sub" *ngIf="isRecover()">
-      Reset your password in two simple steps. This flow is currently mocked for demo.
-    </p>
 
     <div class="auth-alert" *ngIf="authMessage()">{{ authMessage() }}</div>
 
@@ -133,7 +111,9 @@
         <button type="button" class="link-btn" (click)="startRecovery()">Forgot password?</button>
       </div>
 
-      <button type="submit" class="submit-btn">Sign In</button>
+      <button type="submit" class="submit-btn" [disabled]="isSubmitting()">
+        {{ isSubmitting() ? 'Signing In...' : 'Sign In' }}
+      </button>
     </form>
 
     <form

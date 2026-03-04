@@ -27,6 +27,8 @@ function matchFieldsValidator(a: string, b: string) {
   styleUrl: './login.scss',
 })
 export class Login {
+  private readonly demoUsername = 'admin';
+  private readonly demoPassword = 'admin';
   private readonly router = inject(Router);
   private readonly fb = inject(FormBuilder);
   private readonly themeService = inject(ThemeService);
@@ -123,8 +125,8 @@ export class Login {
   fillDemo() {
     this.switchTab('login');
     this.loginForm.patchValue({
-      usernameOrEmail: 'a',
-      password: 'a',
+      usernameOrEmail: this.demoUsername,
+      password: this.demoPassword,
       remember: true,
     });
     this.authMessage.set('Demo credentials filled. Click Sign In.');
@@ -137,14 +139,15 @@ export class Login {
       return;
     }
 
-    const { usernameOrEmail, password } = this.loginForm.value;
-    if (usernameOrEmail === 'a' && password === 'a') {
+    const username = (this.loginForm.value.usernameOrEmail ?? '').trim().toLowerCase();
+    const password = (this.loginForm.value.password ?? '').toString();
+    if (username === this.demoUsername && password === this.demoPassword) {
       this.authMessage.set('');
       this.router.navigate(['/layout']);
       return;
     }
 
-    this.authMessage.set('Invalid credentials. Use demo access: a / a.');
+    this.authMessage.set('Invalid credentials. Use demo access: admin / admin.');
   }
 
   onRegister() {

@@ -5,21 +5,33 @@ export type BrandPreset = 'ocean' | 'sand' | 'slate';
 
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
-  private readonly themeStorageKey = 'rentx-theme';
+  private readonly themeOverrideStorageKey = 'rentx-theme-override';
   private readonly brandStorageKey = 'rentx-brand';
+  private readonly systemThemeQuery: MediaQueryList | null =
+    typeof window !== 'undefined' && window.matchMedia
+      ? window.matchMedia('(prefers-color-scheme: light)')
+      : null;
+  private readonly systemThemeChangeHandler = (event: MediaQueryListEvent) => {
+    // Keep following system preference only if there is no user override.
+    if (this.resolveThemeOverride() !== null) {
+      return;
+    }
+    this.applyResolvedTheme(event.matches ? 'light' : 'dark');
+  };
 
   readonly theme = signal<ThemeMode>('dark');
   readonly brand = signal<BrandPreset>('ocean');
 
   constructor() {
-    const initialTheme = this.resolveInitialTheme();
     const initialBrand = this.resolveInitialBrand();
+    const overrideTheme = this.resolveThemeOverride();
+    const initialTheme = overrideTheme ?? this.resolveSystemTheme();
 
-    this.theme.set(initialTheme);
     this.brand.set(initialBrand);
 
-    this.applyTheme(initialTheme);
+    this.applyResolvedTheme(initialTheme);
     this.applyBrand(initialBrand);
+    this.bindSystemThemeSync();
   }
 
   toggleTheme() {
@@ -27,9 +39,13 @@ export class ThemeService {
   }
 
   setTheme(theme: ThemeMode) {
-    this.theme.set(theme);
-    this.persistTheme(theme);
-    this.applyTheme(theme);
+    this.persistThemeOverride(theme);
+    this.applyResolvedTheme(theme);
+  }
+
+  useSystemTheme() {
+    this.clearThemeOverride();
+    this.applyResolvedTheme(this.resolveSystemTheme());
   }
 
   setBrand(brand: BrandPreset) {
@@ -38,18 +54,28 @@ export class ThemeService {
     this.applyBrand(brand);
   }
 
-  private resolveInitialTheme(): ThemeMode {
+  private bindSystemThemeSync() {
+    if (!this.systemThemeQuery) {
+      return;
+    }
+    this.systemThemeQuery.addEventListener('change', this.systemThemeChangeHandler);
+  }
+
+  private resolveSystemTheme(): ThemeMode {
+    return this.systemThemeQuery?.matches ? 'light' : 'dark';
+  }
+
+  private resolveThemeOverride(): ThemeMode | null {
     if (typeof window === 'undefined') {
-      return 'dark';
+      return null;
     }
 
-    const storedTheme = window.localStorage.getItem(this.themeStorageKey);
+    const storedTheme = window.localStorage.getItem(this.themeOverrideStorageKey);
     if (storedTheme === 'dark' || storedTheme === 'light') {
       return storedTheme;
     }
 
-    const prefersLight = window.matchMedia?.('(prefers-color-scheme: light)').matches;
-    return prefersLight ? 'light' : 'dark';
+    return null;
   }
 
   private resolveInitialBrand(): BrandPreset {
@@ -64,11 +90,18 @@ export class ThemeService {
     return 'ocean';
   }
 
-  private persistTheme(theme: ThemeMode) {
+  private persistThemeOverride(theme: ThemeMode) {
     if (typeof window === 'undefined') {
       return;
     }
-    window.localStorage.setItem(this.themeStorageKey, theme);
+    window.localStorage.setItem(this.themeOverrideStorageKey, theme);
+  }
+
+  private clearThemeOverride() {
+    if (typeof window === 'undefined') {
+      return;
+    }
+    window.localStorage.removeItem(this.themeOverrideStorageKey);
   }
 
   private persistBrand(brand: BrandPreset) {
@@ -76,6 +109,11 @@ export class ThemeService {
       return;
     }
     window.localStorage.setItem(this.brandStorageKey, brand);
+  }
+
+  private applyResolvedTheme(theme: ThemeMode) {
+    this.theme.set(theme);
+    this.applyTheme(theme);
   }
 
   private applyTheme(theme: ThemeMode) {

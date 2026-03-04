@@ -57,8 +57,8 @@ npm test
 ## 5. Quick Access (Demo Login)
 Current authentication is demo-mode.
 
-- Username: `a`
-- Password: `a`
+- Username: `admin`
+- Password: `admin`
 
 Steps:
 1. Open `/login`.
@@ -98,7 +98,7 @@ Login page has 3 flows:
 - Validation:
   - username/email required, min 3 characters
   - password required
-- Demo credential validation currently checks only `a / a`.
+- Demo credential validation currently checks only `admin / admin`.
 
 ### 7.2 Create Account tab
 - Fields: full name, email, password, confirm password.
@@ -190,7 +190,7 @@ Theme state is managed by `ThemeService`.
 - `slate`
 
 ### 10.3 Persistence keys
-- Theme key: `rentx-theme`
+- Theme override key: `rentx-theme-override`
 - Brand key: `rentx-brand`
 
 ### 10.4 Body/document flags
@@ -198,6 +198,10 @@ Service sets:
 - body classes: `theme-dark` / `theme-light`
 - body classes: `brand-ocean` / `brand-sand` / `brand-slate`
 - document attributes: `data-theme`, `data-brand`
+
+### 10.5 Default behavior
+- If no theme override is stored, app follows the system color-scheme preference.
+- If user toggles theme from UI, that override is saved and used on next visit.
 
 ## 11. Current Data Behavior (Important)
 Most screens currently use mock/demo data and placeholder handlers.  
@@ -259,7 +263,7 @@ src/app/
 - If dependencies fail to install, remove `node_modules` and run `npm install` again.
 - If styles look broken, confirm Angular Material and Bootstrap dependencies are installed.
 - If theme does not reset as expected, clear browser local storage keys:
-  - `rentx-theme`
+  - `rentx-theme-override`
   - `rentx-brand`
 - If route opens blank page, confirm path exists in `src/app/app.routes.ts`.
 

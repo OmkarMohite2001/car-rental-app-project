@@ -4,6 +4,10 @@
 Detailed end-user guide is available here:
 - [USER_MANUAL_README.md](./USER_MANUAL_README.md)
 
+## Backend API Manual
+Detailed .NET backend API contract is available here:
+- [API_README_DOTNET.md](./API_README_DOTNET.md)
+
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.1.
 
 ## Development server

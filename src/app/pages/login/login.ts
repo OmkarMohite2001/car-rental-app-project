@@ -1,9 +1,15 @@
-import { Component, AfterViewInit, signal, computed, inject } from '@angular/core';
-import { CommonModule, NgIf } from '@angular/common';
-import { FormBuilder, ReactiveFormsModule, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
+import { Component, computed, inject, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import {
+  AbstractControl,
+  FormBuilder,
+  ReactiveFormsModule,
+  FormGroup,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
-
-declare const particlesJS: any; // CDN मधील global
+import { BrandPreset, ThemeService } from '../../core/theme.service';
 
 function matchFieldsValidator(a: string, b: string) {
   return (ctrl: AbstractControl): ValidationErrors | null => {
@@ -13,89 +19,198 @@ function matchFieldsValidator(a: string, b: string) {
     return av === bv ? null : { mismatch: true };
   };
 }
+
 @Component({
   selector: 'app-login',
-  imports: [CommonModule,ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './login.html',
-  styleUrl: './login.scss'
+  styleUrl: './login.scss',
 })
-export class Login implements AfterViewInit{
-  router = inject(Router);
-private fb = inject(FormBuilder);
+export class Login {
+  private readonly router = inject(Router);
+  private readonly fb = inject(FormBuilder);
+  private readonly themeService = inject(ThemeService);
 
-  // Tabs
-  activeTab = signal<'login' | 'register'>('login');
+  theme = this.themeService.theme;
+  brand = this.themeService.brand;
+  readonly presets: Array<{ id: BrandPreset; label: string }> = [
+    { id: 'ocean', label: 'Ocean' },
+    { id: 'sand', label: 'Sand' },
+    { id: 'slate', label: 'Slate' },
+  ];
+
+  activeTab = signal<'login' | 'register' | 'recover'>('login');
   isLogin = computed(() => this.activeTab() === 'login');
+  isRecover = computed(() => this.activeTab() === 'recover');
 
-  // Login form
- loginForm = this.fb.group({
-  usernameOrEmail: ['', [Validators.required]],
-  password: ['', [Validators.required]]
-});
+  showLoginPassword = signal(false);
+  showRegisterPassword = signal(false);
+  showRegisterConfirm = signal(false);
+  showResetPassword = signal(false);
+  showResetConfirm = signal(false);
+  authMessage = signal('');
+  recoveryCodeSent = signal(false);
 
-  // Register form
-  registerForm = this.fb.group({
-    fullName: ['', [Validators.required, Validators.minLength(3)]],
+  loginForm = this.fb.group({
+    usernameOrEmail: ['', [Validators.required, Validators.minLength(3)]],
+    password: ['', [Validators.required, Validators.minLength(1)]],
+    remember: [false],
+  });
+
+  registerForm = this.fb.group(
+    {
+      fullName: ['', [Validators.required, Validators.minLength(3)]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
+    },
+    { validators: matchFieldsValidator('password', 'confirmPassword') }
+  );
+
+  recoveryRequestForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(6)]],
-    confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
-  }, { validators: matchFieldsValidator('password', 'confirmPassword') });
+  });
 
-  ngAfterViewInit(): void {
-    // particles init (defensive)
-    try {
-      if (typeof particlesJS === 'function') {
-        particlesJS('particles-js', {
-          particles: {
-            number: { value: 80, density: { enable: true, value_area: 800 } },
-            color: { value: '#6c5ce7' },
-            shape: { type: 'circle' },
-            opacity: { value: 0.5, random: true },
-            size: { value: 3, random: true },
-            line_linked: { enable: true, distance: 150, color: '#48dbfb', opacity: 0.4, width: 1 },
-            move: { enable: true, speed: 3, out_mode: 'out' }
-          },
-          interactivity: {
-            events: { onhover: { enable: true, mode: 'grab' }, onclick: { enable: true, mode: 'push' } },
-            modes: { grab: { distance: 140, line_linked: { opacity: 0.6 } } }
-          },
-          retina_detect: true
-        });
-      }
-    } catch { }
-  }
+  recoveryResetForm: FormGroup = this.fb.group(
+    {
+      code: ['', [Validators.required, Validators.pattern(/^\d{6}$/)]],
+      newPassword: ['', [Validators.required, Validators.minLength(6)]],
+      confirmNewPassword: ['', [Validators.required, Validators.minLength(6)]],
+    },
+    { validators: matchFieldsValidator('newPassword', 'confirmNewPassword') }
+  );
 
-  switchTab(tab: 'login' | 'register') {
+  switchTab(tab: 'login' | 'register' | 'recover', clearMessage = true) {
     this.activeTab.set(tab);
+    if (clearMessage) {
+      this.authMessage.set('');
+    }
+    if (tab !== 'recover') {
+      this.recoveryCodeSent.set(false);
+      this.recoveryRequestForm.reset();
+      this.recoveryResetForm.reset();
+    }
   }
 
-onLogin() {
-  if (this.loginForm.invalid) {
-    this.loginForm.markAllAsTouched();
-    return;
+  toggleTheme() {
+    this.themeService.toggleTheme();
   }
 
-  const { usernameOrEmail, password } = this.loginForm.value;
-
-  // Hardcoded check
-  if (usernameOrEmail === 'admin' && password === 'a123') {
-    alert('Login Successful ✅');
-    this.router.navigate(['/layout']); 
-  } else {
-    alert('Invalid Credentials ❌');
+  setBrand(preset: BrandPreset) {
+    this.themeService.setBrand(preset);
   }
-}
+
+  togglePassword(field: 'login' | 'register' | 'confirm') {
+    if (field === 'login') {
+      this.showLoginPassword.update((v) => !v);
+      return;
+    }
+    if (field === 'register') {
+      this.showRegisterPassword.update((v) => !v);
+      return;
+    }
+    this.showRegisterConfirm.update((v) => !v);
+  }
+
+  toggleResetPassword(field: 'new' | 'confirm') {
+    if (field === 'new') {
+      this.showResetPassword.update((v) => !v);
+      return;
+    }
+    this.showResetConfirm.update((v) => !v);
+  }
+
+  fillDemo() {
+    this.switchTab('login');
+    this.loginForm.patchValue({
+      usernameOrEmail: 'a',
+      password: 'a',
+      remember: true,
+    });
+    this.authMessage.set('Demo credentials filled. Click Sign In.');
+  }
+
+  onLogin() {
+    if (this.loginForm.invalid) {
+      this.loginForm.markAllAsTouched();
+      this.authMessage.set('Please enter valid login details.');
+      return;
+    }
+
+    const { usernameOrEmail, password } = this.loginForm.value;
+    if (usernameOrEmail === 'a' && password === 'a') {
+      this.authMessage.set('');
+      this.router.navigate(['/layout']);
+      return;
+    }
+
+    this.authMessage.set('Invalid credentials. Use demo access: a / a.');
+  }
 
   onRegister() {
     if (this.registerForm.invalid) {
       this.registerForm.markAllAsTouched();
+      this.authMessage.set('Please complete the register form correctly.');
       return;
     }
-    const payload = this.registerForm.value;
+
+    this.authMessage.set('Register is in demo mode. Please login with demo access.');
+    this.switchTab('login', false);
   }
 
-  // Helpers
+  startRecovery() {
+    this.switchTab('recover');
+    this.recoveryCodeSent.set(false);
+    this.authMessage.set('Enter your account email to receive a reset code.');
+  }
+
+  sendRecoveryCode() {
+    if (this.recoveryRequestForm.invalid) {
+      this.recoveryRequestForm.markAllAsTouched();
+      this.authMessage.set('Please enter a valid email address.');
+      return;
+    }
+
+    this.recoveryCodeSent.set(true);
+    this.recoveryResetForm.reset();
+    this.authMessage.set('A 6-digit reset code has been sent (demo mode).');
+  }
+
+  completeRecovery() {
+    if (this.recoveryResetForm.invalid) {
+      this.recoveryResetForm.markAllAsTouched();
+      this.authMessage.set('Please complete all reset fields correctly.');
+      return;
+    }
+
+    const email = this.recoveryRequestForm.value.email ?? '';
+    this.loginForm.patchValue({ usernameOrEmail: email, password: '' });
+    this.authMessage.set('Password updated in demo flow. Sign in with your credentials.');
+    this.switchTab('login', false);
+  }
+
   hasErr(formCtrl: AbstractControl | null, err: string) {
     return !!formCtrl && (formCtrl.touched || formCtrl.dirty) && formCtrl.hasError(err);
+  }
+
+  recoverHasErr(formCtrl: AbstractControl | null, err: string) {
+    return !!formCtrl && (formCtrl.touched || formCtrl.dirty) && formCtrl.hasError(err);
+  }
+
+  passwordStrength() {
+    const value = (this.registerForm.get('password')?.value ?? '').toString();
+    let score = 0;
+    if (value.length >= 6) score += 1;
+    if (/[A-Z]/.test(value)) score += 1;
+    if (/\d/.test(value)) score += 1;
+    if (/[^A-Za-z0-9]/.test(value)) score += 1;
+    return score;
+  }
+
+  strengthLabel() {
+    const score = this.passwordStrength();
+    if (score <= 1) return 'Weak';
+    if (score <= 3) return 'Medium';
+    return 'Strong';
   }
 }

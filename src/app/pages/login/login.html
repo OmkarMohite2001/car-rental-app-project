@@ -1,115 +1,305 @@
-<div id="particles-js"></div>
+<div class="auth-shell">
+  <section class="brand-side">
+    <div class="brand-chip">
+      <span class="material-icons">verified_user</span>
+      Fleet-Grade Access
+    </div>
 
-<div class="container">
-  <div class="main">
-    <!-- Tabs -->
-    <div class="tabs">
-      <div
-        class="tab"
-        [class.active]="isLogin()"
-        (click)="switchTab('login')"
-        data-tab="login">
-        Login
+    <div class="brand-head">
+      <div class="logo">
+        <span class="material-icons">directions_car</span>
       </div>
-      <div
-        class="tab"
-        [class.active]="!isLogin()"
-        (click)="switchTab('register')"
-        data-tab="register">
-        Register
+      <div>
+        <h1>RentX Control Hub</h1>
+        <p>Manage rentals, pricing, branches, and inspections from one secure panel.</p>
       </div>
     </div>
 
-    <div class="form-container">
-      <!-- Login Form -->
-      <form
-        class="form"
-        [class.active]="isLogin()"
-        [formGroup]="loginForm"
-        (ngSubmit)="onLogin()">
-
-        <h2>Log In</h2>
-
-        <div class="input-group">
-          <i class="fas fa-user"></i>
-          <input type="text" placeholder="Username or Email" formControlName="usernameOrEmail">
-        </div>
-        <div class="err" *ngIf="hasErr(loginForm.get('usernameOrEmail'), 'required')">Required</div>
-        <div class="err" *ngIf="hasErr(loginForm.get('usernameOrEmail'), 'minlength')">Min 3 chars</div>
-
-        <div class="input-group">
-          <i class="fas fa-lock"></i>
-          <input type="password" placeholder="Password" formControlName="password">
-        </div>
-        <div class="err" *ngIf="hasErr(loginForm.get('password'), 'required')">Required</div>
-        <div class="err" *ngIf="hasErr(loginForm.get('password'), 'minlength')">Min 6 chars</div>
-
-        <div class="options">
-          <div class="remember">
-            <input type="checkbox" id="remember" formControlName="remember">
-            <label for="remember">Remember me</label>
-          </div>
-          <a href="#" class="forgot">Forgot Password?</a>
-        </div>
-
-        <button type="submit" class="btn">Login</button>
-
-        <div class="separator"><span>Or continue with</span></div>
-        <div class="social-login">
-          <div class="social-btn"><i class="fab fa-google"></i></div>
-          <div class="social-btn"><i class="fab fa-facebook-f"></i></div>
-          <div class="social-btn"><i class="fab fa-twitter"></i></div>
-        </div>
-      </form>
-
-      <!-- Register Form -->
-      <form
-        class="form"
-        [class.active]="!isLogin()"
-        [formGroup]="registerForm"
-        (ngSubmit)="onRegister()">
-
-        <h2>Create Account</h2>
-
-        <div class="input-group">
-          <i class="fas fa-user"></i>
-          <input type="text" placeholder="Full Name" formControlName="fullName">
-        </div>
-        <div class="err" *ngIf="hasErr(registerForm.get('fullName'), 'required')">Required</div>
-        <div class="err" *ngIf="hasErr(registerForm.get('fullName'), 'minlength')">Min 3 chars</div>
-
-        <div class="input-group">
-          <i class="fas fa-envelope"></i>
-          <input type="email" placeholder="Email Address" formControlName="email">
-        </div>
-        <div class="err" *ngIf="hasErr(registerForm.get('email'), 'required')">Required</div>
-        <div class="err" *ngIf="hasErr(registerForm.get('email'), 'email')">Invalid email</div>
-
-        <div class="input-group">
-          <i class="fas fa-lock"></i>
-          <input type="password" placeholder="Password" formControlName="password">
-        </div>
-        <div class="err" *ngIf="hasErr(registerForm.get('password'), 'required')">Required</div>
-        <div class="err" *ngIf="hasErr(registerForm.get('password'), 'minlength')">Min 6 chars</div>
-
-        <div class="input-group">
-          <i class="fas fa-lock"></i>
-          <input type="password" placeholder="Confirm Password" formControlName="confirmPassword">
-        </div>
-        <div class="err" *ngIf="hasErr(registerForm.get('confirmPassword'), 'required')">Required</div>
-        <div class="err" *ngIf="registerForm.touched && registerForm.hasError('mismatch')">
-          Passwords do not match
-        </div>
-
-        <button type="submit" class="btn">Register</button>
-
-        <div class="separator"><span>Or sign up with</span></div>
-        <div class="social-login">
-          <div class="social-btn"><i class="fab fa-google"></i></div>
-          <div class="social-btn"><i class="fab fa-facebook-f"></i></div>
-          <div class="social-btn"><i class="fab fa-twitter"></i></div>
-        </div>
-      </form>
+    <div class="metric-grid">
+      <article class="metric">
+        <span>24/7</span>
+        <small>Booking pipeline</small>
+      </article>
+      <article class="metric">
+        <span>99.9%</span>
+        <small>Ops visibility</small>
+      </article>
+      <article class="metric">
+        <span>12K+</span>
+        <small>Trips processed</small>
+      </article>
     </div>
-  </div>
+
+    <div class="feature-list">
+      <div>
+        <span class="material-icons">bolt</span>
+        Real-time booking and fleet actions
+      </div>
+      <div>
+        <span class="material-icons">shield</span>
+        Role-based secure access
+      </div>
+      <div>
+        <span class="material-icons">insights</span>
+        Live KPI tracking and reports
+      </div>
+    </div>
+
+    <div class="demo-card">
+      <div class="demo-head">
+        <span class="material-icons">smart_toy</span>
+        Demo Access
+      </div>
+      <p>User: <strong>a</strong> | Pass: <strong>a</strong></p>
+      <button type="button" class="demo-btn" (click)="fillDemo()">Use Demo Credentials</button>
+    </div>
+  </section>
+
+  <section class="auth-side">
+    <div class="auth-top">
+      <div class="tabs">
+        <button type="button" class="tab" [class.active]="isLogin()" (click)="switchTab('login')">
+          Sign In
+        </button>
+        <button
+          type="button"
+          class="tab"
+          [class.active]="activeTab() === 'register'"
+          (click)="switchTab('register')"
+        >
+          Create Account
+        </button>
+      </div>
+
+      <button type="button" class="theme-toggle" (click)="toggleTheme()" aria-label="Toggle theme">
+        <span class="material-icons">{{ theme() === 'dark' ? 'light_mode' : 'dark_mode' }}</span>
+      </button>
+    </div>
+
+    <div class="preset-row">
+      <span>Accent</span>
+      <button
+        type="button"
+        class="preset-btn"
+        *ngFor="let p of presets"
+        [class.active]="brand() === p.id"
+        (click)="setBrand(p.id)"
+      >
+        {{ p.label }}
+      </button>
+    </div>
+
+    <p class="auth-sub" *ngIf="!isRecover()">
+      Welcome back. Continue to your rental operations workspace.
+    </p>
+    <p class="auth-sub" *ngIf="isRecover()">
+      Reset your password in two simple steps. This flow is currently mocked for demo.
+    </p>
+
+    <div class="auth-alert" *ngIf="authMessage()">{{ authMessage() }}</div>
+
+    <form class="auth-form" [class.active]="isLogin()" [formGroup]="loginForm" (ngSubmit)="onLogin()">
+      <label class="field">
+        <span>Username or Email</span>
+        <div class="input-wrap">
+          <span class="material-icons">person</span>
+          <input type="text" placeholder="e.g. ops@rentx.com" formControlName="usernameOrEmail" />
+        </div>
+      </label>
+      <div class="err" *ngIf="hasErr(loginForm.get('usernameOrEmail'), 'required')">This field is required.</div>
+      <div class="err" *ngIf="hasErr(loginForm.get('usernameOrEmail'), 'minlength')">Min 3 characters required.</div>
+
+      <label class="field">
+        <span>Password</span>
+        <div class="input-wrap">
+          <span class="material-icons">lock</span>
+          <input
+            [type]="showLoginPassword() ? 'text' : 'password'"
+            placeholder="Enter password"
+            formControlName="password"
+          />
+          <button type="button" class="toggle-pass" (click)="togglePassword('login')">
+            <span class="material-icons">{{ showLoginPassword() ? 'visibility_off' : 'visibility' }}</span>
+          </button>
+        </div>
+      </label>
+      <div class="err" *ngIf="hasErr(loginForm.get('password'), 'required')">Password is required.</div>
+
+      <div class="row-meta">
+        <label class="remember">
+          <input type="checkbox" formControlName="remember" />
+          Keep me signed in
+        </label>
+        <button type="button" class="link-btn" (click)="startRecovery()">Forgot password?</button>
+      </div>
+
+      <button type="submit" class="submit-btn">Sign In</button>
+    </form>
+
+    <form
+      class="auth-form"
+      [class.active]="activeTab() === 'register'"
+      [formGroup]="registerForm"
+      (ngSubmit)="onRegister()"
+    >
+      <label class="field">
+        <span>Full Name</span>
+        <div class="input-wrap">
+          <span class="material-icons">badge</span>
+          <input type="text" placeholder="Your full name" formControlName="fullName" />
+        </div>
+      </label>
+      <div class="err" *ngIf="hasErr(registerForm.get('fullName'), 'required')">Full name is required.</div>
+      <div class="err" *ngIf="hasErr(registerForm.get('fullName'), 'minlength')">Min 3 characters required.</div>
+
+      <label class="field">
+        <span>Email</span>
+        <div class="input-wrap">
+          <span class="material-icons">mail</span>
+          <input type="email" placeholder="name@example.com" formControlName="email" />
+        </div>
+      </label>
+      <div class="err" *ngIf="hasErr(registerForm.get('email'), 'required')">Email is required.</div>
+      <div class="err" *ngIf="hasErr(registerForm.get('email'), 'email')">Enter a valid email.</div>
+
+      <label class="field">
+        <span>Password</span>
+        <div class="input-wrap">
+          <span class="material-icons">password</span>
+          <input
+            [type]="showRegisterPassword() ? 'text' : 'password'"
+            placeholder="Create password"
+            formControlName="password"
+          />
+          <button type="button" class="toggle-pass" (click)="togglePassword('register')">
+            <span class="material-icons">{{ showRegisterPassword() ? 'visibility_off' : 'visibility' }}</span>
+          </button>
+        </div>
+      </label>
+      <div class="err" *ngIf="hasErr(registerForm.get('password'), 'required')">Password is required.</div>
+      <div class="err" *ngIf="hasErr(registerForm.get('password'), 'minlength')">Min 6 characters required.</div>
+
+      <div class="strength">
+        <div class="bar">
+          <span [style.width.%]="passwordStrength() * 25"></span>
+        </div>
+        <small>Password strength: {{ strengthLabel() }}</small>
+      </div>
+
+      <label class="field">
+        <span>Confirm Password</span>
+        <div class="input-wrap">
+          <span class="material-icons">task_alt</span>
+          <input
+            [type]="showRegisterConfirm() ? 'text' : 'password'"
+            placeholder="Re-enter password"
+            formControlName="confirmPassword"
+          />
+          <button type="button" class="toggle-pass" (click)="togglePassword('confirm')">
+            <span class="material-icons">{{ showRegisterConfirm() ? 'visibility_off' : 'visibility' }}</span>
+          </button>
+        </div>
+      </label>
+      <div class="err" *ngIf="hasErr(registerForm.get('confirmPassword'), 'required')">
+        Confirm password is required.
+      </div>
+      <div class="err" *ngIf="registerForm.touched && registerForm.hasError('mismatch')">
+        Passwords do not match.
+      </div>
+
+      <button type="submit" class="submit-btn alt">Create Account</button>
+    </form>
+
+    <form
+      class="auth-form"
+      [class.active]="isRecover() && !recoveryCodeSent()"
+      [formGroup]="recoveryRequestForm"
+      (ngSubmit)="sendRecoveryCode()"
+    >
+      <div class="recover-note">Step 1: Enter your account email.</div>
+
+      <label class="field">
+        <span>Account Email</span>
+        <div class="input-wrap">
+          <span class="material-icons">alternate_email</span>
+          <input type="email" placeholder="registered@email.com" formControlName="email" />
+        </div>
+      </label>
+      <div class="err" *ngIf="recoverHasErr(recoveryRequestForm.get('email'), 'required')">Email is required.</div>
+      <div class="err" *ngIf="recoverHasErr(recoveryRequestForm.get('email'), 'email')">Enter a valid email.</div>
+
+      <div class="recover-actions">
+        <button type="button" class="ghost-btn" (click)="switchTab('login')">Back to Sign In</button>
+        <button type="submit" class="submit-btn">Send Code</button>
+      </div>
+    </form>
+
+    <form
+      class="auth-form"
+      [class.active]="isRecover() && recoveryCodeSent()"
+      [formGroup]="recoveryResetForm"
+      (ngSubmit)="completeRecovery()"
+    >
+      <div class="recover-note">Step 2: Verify code and set a new password.</div>
+
+      <label class="field">
+        <span>6-Digit Code</span>
+        <div class="input-wrap">
+          <span class="material-icons">pin</span>
+          <input type="text" maxlength="6" placeholder="123456" formControlName="code" />
+        </div>
+      </label>
+      <div class="err" *ngIf="recoverHasErr(recoveryResetForm.get('code'), 'required')">Code is required.</div>
+      <div class="err" *ngIf="recoverHasErr(recoveryResetForm.get('code'), 'pattern')">
+        Enter a valid 6-digit code.
+      </div>
+
+      <label class="field">
+        <span>New Password</span>
+        <div class="input-wrap">
+          <span class="material-icons">lock_reset</span>
+          <input
+            [type]="showResetPassword() ? 'text' : 'password'"
+            placeholder="At least 6 characters"
+            formControlName="newPassword"
+          />
+          <button type="button" class="toggle-pass" (click)="toggleResetPassword('new')">
+            <span class="material-icons">{{ showResetPassword() ? 'visibility_off' : 'visibility' }}</span>
+          </button>
+        </div>
+      </label>
+      <div class="err" *ngIf="recoverHasErr(recoveryResetForm.get('newPassword'), 'required')">
+        New password is required.
+      </div>
+      <div class="err" *ngIf="recoverHasErr(recoveryResetForm.get('newPassword'), 'minlength')">
+        Min 6 characters required.
+      </div>
+
+      <label class="field">
+        <span>Confirm New Password</span>
+        <div class="input-wrap">
+          <span class="material-icons">task_alt</span>
+          <input
+            [type]="showResetConfirm() ? 'text' : 'password'"
+            placeholder="Re-enter new password"
+            formControlName="confirmNewPassword"
+          />
+          <button type="button" class="toggle-pass" (click)="toggleResetPassword('confirm')">
+            <span class="material-icons">{{ showResetConfirm() ? 'visibility_off' : 'visibility' }}</span>
+          </button>
+        </div>
+      </label>
+      <div class="err" *ngIf="recoverHasErr(recoveryResetForm.get('confirmNewPassword'), 'required')">
+        Confirm password is required.
+      </div>
+      <div class="err" *ngIf="recoveryResetForm.touched && recoveryResetForm.hasError('mismatch')">
+        Passwords do not match.
+      </div>
+
+      <div class="recover-actions">
+        <button type="button" class="ghost-btn" (click)="switchTab('login')">Back to Sign In</button>
+        <button type="submit" class="submit-btn alt">Reset Password</button>
+      </div>
+    </form>
+  </section>
 </div>

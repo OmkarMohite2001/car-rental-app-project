@@ -1,0 +1,148 @@
+:host {
+  display: block;
+}
+
+.health-panel {
+  border: 1px solid var(--panel-border);
+  border-radius: 14px;
+  background: var(--panel-bg);
+  overflow: hidden;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  border-bottom: 1px solid var(--panel-border);
+  padding: 12px 14px;
+}
+
+.title {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.title mat-icon {
+  color: var(--accent-500);
+}
+
+.title h3 {
+  margin: 0;
+  font-size: 0.98rem;
+}
+
+.badge {
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.score-wrap {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 12px;
+  align-items: center;
+  padding: 14px;
+}
+
+.ring {
+  width: 120px;
+  height: 120px;
+  transform: rotate(-90deg);
+}
+
+.track,
+.progress {
+  fill: none;
+  stroke-width: 11;
+}
+
+.track {
+  stroke: rgba(255, 255, 255, 0.12);
+}
+
+.progress {
+  stroke: var(--accent-500);
+  stroke-linecap: round;
+  stroke-dasharray: calc(2 * 3.1416 * 44);
+  transition: stroke-dashoffset 0.7s ease;
+}
+
+.score {
+  display: grid;
+  gap: 4px;
+}
+
+.score span {
+  font-family: 'Sora', 'Manrope', sans-serif;
+  font-size: 1.9rem;
+  line-height: 1;
+  color: var(--text-primary);
+}
+
+.score small {
+  color: var(--text-muted);
+}
+
+.bars {
+  padding: 0 14px 14px;
+  display: grid;
+  gap: 10px;
+}
+
+.metric .meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 5px;
+}
+
+.metric .meta span {
+  font-size: 0.83rem;
+  color: var(--text-soft);
+}
+
+.metric .meta b {
+  font-size: 0.79rem;
+  color: var(--text-primary);
+}
+
+.bar {
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+
+.bar i {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  transform-origin: left center;
+  transform: scaleX(0);
+  animation: widen 0.7s ease forwards;
+}
+
+.bar.good i {
+  background: linear-gradient(90deg, #2bd389, #37e7aa);
+}
+
+.bar.warn i {
+  background: linear-gradient(90deg, #ffb258, #ffcc6f);
+}
+
+.bar.risk i {
+  background: linear-gradient(90deg, #ff7a7a, #ff5b5b);
+}
+
+@keyframes widen {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}

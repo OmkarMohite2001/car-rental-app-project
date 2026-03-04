@@ -1,7 +1,7 @@
 <!-- NAVBAR -->
 <mat-toolbar class="navbar shadow-sm">
   <!-- Brand -->
-  <button class="brand btn btn-link p-0 me-2" routerLink="/layout/dashboard" matTooltip="Home">
+  <button class="brand p-0 me-2" routerLink="/layout/dashboard" matTooltip="Home">
     <mat-icon class="logo">directions_car</mat-icon>
     <span class="brand-text">RentX</span>
   </button>
@@ -29,19 +29,45 @@
 
   <!-- Search -->
   <div class="toolbar-search d-none d-md-flex" [class.open]="showSearch()">
-    <button mat-icon-button (click)="toggleSearch()" matTooltip="Search"><mat-icon>search</mat-icon></button>
+    <button mat-icon-button (click)="toggleSearch()" matTooltip="Search">
+      <mat-icon>search</mat-icon>
+    </button>
     <mat-form-field appearance="outline" class="search-field" *ngIf="showSearch()">
       <mat-label>Search…</mat-label>
-      <input matInput (keyup.enter)="onGlobalSearch($event)" placeholder="Cars, bookings, customers" />
+      <input
+        matInput
+        (keyup.enter)="onGlobalSearch($event)"
+        placeholder="Cars, bookings, customers"
+      />
     </mat-form-field>
   </div>
 
   <!-- Icons -->
   <div class="icons d-none d-md-flex">
+    <button mat-icon-button [matMenuTriggerFor]="brandMenu" matTooltip="Color preset">
+      <mat-icon>palette</mat-icon>
+    </button>
+    <mat-menu #brandMenu="matMenu" class="brand-menu">
+      <button
+        mat-menu-item
+        *ngFor="let p of presets"
+        (click)="setBrand(p.id)"
+        [class.active-preset]="brand() === p.id"
+      >
+        <mat-icon>{{ brand() === p.id ? 'check_circle' : 'radio_button_unchecked' }}</mat-icon>
+        <span>{{ p.label }}</span>
+      </button>
+    </mat-menu>
+
     <button mat-icon-button matTooltip="Toggle theme" (click)="toggleTheme()">
       <mat-icon>{{ theme() === 'dark' ? 'light_mode' : 'dark_mode' }}</mat-icon>
     </button>
-    <button mat-icon-button matTooltip="Notifications" [matBadge]="notifCount()" matBadgeColor="accent">
+    <button
+      mat-icon-button
+      matTooltip="Notifications"
+      [matBadge]="notifCount()"
+      matBadgeColor="accent"
+    >
       <mat-icon>notifications</mat-icon>
     </button>
     <button mat-icon-button matTooltip="Cart" [matBadge]="cartCount()" matBadgeColor="warn">
@@ -52,7 +78,7 @@
     <button mat-icon-button [routerLink]="'/layout/profile'" matTooltip="Profile">
       <mat-icon>account_circle</mat-icon>
     </button>
-    <button mat-icon-button [routerLink]="'/login'" matTooltip="Logout">
+    <button mat-icon-button (click)="logOut()" matTooltip="Logout">
       <mat-icon>logout</mat-icon>
     </button>
   </div>
@@ -90,50 +116,115 @@
   <div class="grid">
     <div class="col">
       <h6><mat-icon>play_circle</mat-icon>Operations</h6>
-      <a routerLink="/layout/manage-bookings" (click)="closeMega()"><mat-icon>assignment</mat-icon><span>Bookings</span></a>
-      <a routerLink="/layout/return-inspection" (click)="closeMega()"><mat-icon>rule_folder</mat-icon><span>Return Inspection</span></a>
-      <a routerLink="/layout/maintenance" (click)="closeMega()"><mat-icon>event_busy</mat-icon><span>Maintenance</span></a>
+      <a routerLink="/layout/manage-bookings" (click)="closeMega()"
+        ><mat-icon>assignment</mat-icon><span>Bookings</span></a
+      >
+      <a routerLink="/layout/return-inspection" (click)="closeMega()"
+        ><mat-icon>rule_folder</mat-icon><span>Return Inspection</span></a
+      >
+      <a routerLink="/layout/maintenance" (click)="closeMega()"
+        ><mat-icon>event_busy</mat-icon><span>Maintenance</span></a
+      >
     </div>
 
     <div class="col">
       <h6><mat-icon>build</mat-icon>Masters</h6>
-      <a routerLink="/layout/car-master" (click)="closeMega()"><mat-icon>tune</mat-icon><span>Car Master</span></a>
-      <a routerLink="/layout/branches" (click)="closeMega()"><mat-icon>store</mat-icon><span>Branches</span></a>
-      <a routerLink="/layout/customers" (click)="closeMega()"><mat-icon>group</mat-icon><span>Customers</span></a>
+      <a routerLink="/layout/car-master" (click)="closeMega()"
+        ><mat-icon>tune</mat-icon><span>Car Master</span></a
+      >
+      <a routerLink="/layout/branches" (click)="closeMega()"
+        ><mat-icon>store</mat-icon><span>Branches</span></a
+      >
+      <a routerLink="/layout/customers" (click)="closeMega()"
+        ><mat-icon>group</mat-icon><span>Customers</span></a
+      >
     </div>
 
     <div class="col">
       <h6><mat-icon>insights</mat-icon>Analytics</h6>
-      <a routerLink="/layout/reports" (click)="closeMega()"><mat-icon>bar_chart</mat-icon><span>Reports</span></a>
+      <a routerLink="/layout/reports" (click)="closeMega()"
+        ><mat-icon>bar_chart</mat-icon><span>Reports</span></a
+      >
     </div>
 
     <div class="col">
       <h6><mat-icon>admin_panel_settings</mat-icon>System</h6>
-      <a routerLink="/layout/users-roles" (click)="closeMega()"><mat-icon>admin_panel_settings</mat-icon><span>Users & Roles</span></a>
-      <a routerLink="/layout/settings" (click)="closeMega()"><mat-icon>settings</mat-icon><span>Settings</span></a>
-      <a routerLink="/layout/profile" (click)="closeMega()"><mat-icon>person</mat-icon><span>Profile</span></a>
+      <a routerLink="/layout/users-roles" (click)="closeMega()"
+        ><mat-icon>admin_panel_settings</mat-icon><span>Users & Roles</span></a
+      >
+      <a routerLink="/layout/settings" (click)="closeMega()"
+        ><mat-icon>settings</mat-icon><span>Settings</span></a
+      >
+      <a routerLink="/layout/profile" (click)="closeMega()"
+        ><mat-icon>person</mat-icon><span>Profile</span></a
+      >
     </div>
   </div>
 </div>
 
 <!-- MOBILE COLLAPSE -->
 <div class="mobile d-md-none" [class.open]="!collapsed()">
-  <a routerLink="/layout/dashboard" class="mobile-link" (click)="toggle()"><mat-icon>space_dashboard</mat-icon> Dashboard</a>
-  <a routerLink="/layout/cars" class="mobile-link" (click)="toggle()"><mat-icon>garage</mat-icon> Cars</a>
-  <a routerLink="/layout/manage-bookings" class="mobile-link" (click)="toggle()"><mat-icon>assignment</mat-icon> Bookings</a>
+  <a routerLink="/layout/dashboard" class="mobile-link" (click)="toggle()"
+    ><mat-icon>space_dashboard</mat-icon> Dashboard</a
+  >
+  <a routerLink="/layout/cars" class="mobile-link" (click)="toggle()"
+    ><mat-icon>garage</mat-icon> Cars</a
+  >
+  <a routerLink="/layout/manage-bookings" class="mobile-link" (click)="toggle()"
+    ><mat-icon>assignment</mat-icon> Bookings</a
+  >
 
   <div class="mobile-section">More</div>
-  <a routerLink="/layout/customers" class="mobile-link" (click)="toggle()"><mat-icon>group</mat-icon> Customers</a>
-  <a routerLink="/layout/branches" class="mobile-link" (click)="toggle()"><mat-icon>store</mat-icon> Branches</a>
-  <a routerLink="/layout/car-master" class="mobile-link" (click)="toggle()"><mat-icon>tune</mat-icon> Car Master</a>
-  <a routerLink="/layout/maintenance" class="mobile-link" (click)="toggle()"><mat-icon>event_busy</mat-icon> Maintenance</a>
-  <a routerLink="/layout/return-inspection" class="mobile-link" (click)="toggle()"><mat-icon>rule_folder</mat-icon> Return Inspection</a>
-  <a routerLink="/layout/users-roles" class="mobile-link" (click)="toggle()"><mat-icon>admin_panel_settings</mat-icon> Users & Roles</a>
-  <a routerLink="/layout/reports" class="mobile-link" (click)="toggle()"><mat-icon>bar_chart</mat-icon> Reports</a>
-  <a routerLink="/layout/settings" class="mobile-link" (click)="toggle()"><mat-icon>settings</mat-icon> Settings</a>
+  <a routerLink="/layout/customers" class="mobile-link" (click)="toggle()"
+    ><mat-icon>group</mat-icon> Customers</a
+  >
+  <a routerLink="/layout/branches" class="mobile-link" (click)="toggle()"
+    ><mat-icon>store</mat-icon> Branches</a
+  >
+  <a routerLink="/layout/car-master" class="mobile-link" (click)="toggle()"
+    ><mat-icon>tune</mat-icon> Car Master</a
+  >
+  <a routerLink="/layout/maintenance" class="mobile-link" (click)="toggle()"
+    ><mat-icon>event_busy</mat-icon> Maintenance</a
+  >
+  <a routerLink="/layout/return-inspection" class="mobile-link" (click)="toggle()"
+    ><mat-icon>rule_folder</mat-icon> Return Inspection</a
+  >
+  <a routerLink="/layout/users-roles" class="mobile-link" (click)="toggle()"
+    ><mat-icon>admin_panel_settings</mat-icon> Users & Roles</a
+  >
+  <a routerLink="/layout/reports" class="mobile-link" (click)="toggle()"
+    ><mat-icon>bar_chart</mat-icon> Reports</a
+  >
+  <a routerLink="/layout/settings" class="mobile-link" (click)="toggle()"
+    ><mat-icon>settings</mat-icon> Settings</a
+  >
 
   <div class="mobile-icons">
-    <button mat-stroked-button color="primary" class="w-100 mb-2" routerLink="/layout/profile" (click)="toggle()">
+    <button mat-stroked-button class="w-100 mb-2" (click)="toggleTheme()">
+      <mat-icon class="me-1">{{ theme() === 'dark' ? 'light_mode' : 'dark_mode' }}</mat-icon>
+      {{ theme() === 'dark' ? 'Light Mode' : 'Dark Mode' }}
+    </button>
+
+    <div class="mobile-presets mb-2">
+      <button
+        mat-stroked-button
+        type="button"
+        *ngFor="let p of presets"
+        [class.preset-active]="brand() === p.id"
+        (click)="setBrand(p.id)"
+      >
+        {{ p.label }}
+      </button>
+    </div>
+
+    <button
+      mat-stroked-button
+      color="primary"
+      class="w-100 mb-2"
+      routerLink="/layout/profile"
+      (click)="toggle()"
+    >
       <mat-icon class="me-1">person</mat-icon> Profile
     </button>
     <button mat-stroked-button color="warn" class="w-100" routerLink="/login">
@@ -143,3 +234,4 @@
 </div>
 
 <router-outlet></router-outlet>
+<app-command-fab></app-command-fab>

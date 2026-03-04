@@ -1,0 +1,38 @@
+<article class="health-panel">
+  <div class="head">
+    <div class="title">
+      <mat-icon>health_and_safety</mat-icon>
+      <h3>Fleet Health</h3>
+    </div>
+    <span class="badge">Updated now</span>
+  </div>
+
+  <div class="score-wrap">
+    <svg viewBox="0 0 120 120" class="ring">
+      <circle cx="60" cy="60" r="44" class="track"></circle>
+      <circle
+        cx="60"
+        cy="60"
+        r="44"
+        class="progress"
+        [style.strokeDashoffset.px]="ringOffset()"
+      ></circle>
+    </svg>
+    <div class="score">
+      <span>{{ score() }}%</span>
+      <small>Health score</small>
+    </div>
+  </div>
+
+  <div class="bars">
+    <div *ngFor="let m of metrics()" class="metric">
+      <div class="meta">
+        <span>{{ m.label }}</span>
+        <b>{{ m.value }}%</b>
+      </div>
+      <div class="bar" [class.good]="m.tone === 'good'" [class.warn]="m.tone === 'warn'" [class.risk]="m.tone === 'risk'">
+        <i [style.width.%]="m.value"></i>
+      </div>
+    </div>
+  </div>
+</article>

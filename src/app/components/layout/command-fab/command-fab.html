@@ -1,0 +1,18 @@
+<div class="fab-shell" [class.open]="open()">
+  <div class="fab-items" *ngIf="open()">
+    <a
+      *ngFor="let action of actions; index as i"
+      class="fab-item"
+      [routerLink]="action.link"
+      (click)="close()"
+      [style.animationDelay.ms]="i * 45"
+    >
+      <mat-icon>{{ action.icon }}</mat-icon>
+      <span>{{ action.label }}</span>
+    </a>
+  </div>
+
+  <button class="fab-main" type="button" mat-fab (click)="toggle()">
+    <mat-icon>{{ open() ? 'close' : 'flash_on' }}</mat-icon>
+  </button>
+</div>

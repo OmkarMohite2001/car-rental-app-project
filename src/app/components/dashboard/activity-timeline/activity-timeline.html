@@ -1,0 +1,32 @@
+<article class="timeline-panel">
+  <div class="head">
+    <div class="title">
+      <mat-icon>schedule</mat-icon>
+      <h3>Activity Timeline</h3>
+    </div>
+    <div class="live">
+      <span></span>
+      Live
+    </div>
+  </div>
+
+  <ol class="timeline">
+    <li
+      *ngFor="let item of activities(); index as i"
+      class="event"
+      [style.animationDelay.ms]="60 * i"
+      [class.alert]="item.type === 'alert'"
+    >
+      <div class="marker">
+        <mat-icon>{{ iconFor(item.type) }}</mat-icon>
+      </div>
+
+      <div class="body">
+        <h4>{{ item.title }}</h4>
+        <p>{{ item.meta }}</p>
+      </div>
+
+      <div class="time">{{ item.time }}</div>
+    </li>
+  </ol>
+</article>

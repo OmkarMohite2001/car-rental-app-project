@@ -1,0 +1,93 @@
+:host {
+  position: fixed;
+  right: 16px;
+  bottom: 18px;
+  z-index: 1200;
+}
+
+.fab-shell {
+  display: grid;
+  justify-items: end;
+  gap: 10px;
+}
+
+.fab-items {
+  display: grid;
+  gap: 8px;
+}
+
+.fab-item {
+  border: 1px solid var(--panel-border);
+  background: var(--panel-bg);
+  border-radius: 999px;
+  color: var(--text-primary);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 38px;
+  padding: 0 12px;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.22);
+  animation: liftIn 0.2s ease both;
+}
+
+.fab-item:hover {
+  border-color: var(--field-border-focus);
+  background: var(--quick-btn-hover-bg);
+}
+
+.fab-item mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  color: var(--accent-500);
+}
+
+.fab-item span {
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.fab-main {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 1px solid var(--panel-border);
+  background: var(--title-gradient);
+  color: var(--text-inverse);
+  box-shadow: 0 16px 26px rgba(0, 0, 0, 0.24);
+}
+
+.fab-main mat-icon {
+  transition: transform 0.2s ease;
+}
+
+.fab-shell.open .fab-main mat-icon {
+  transform: rotate(90deg);
+}
+
+@keyframes liftIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 768px) {
+  :host {
+    right: 12px;
+    bottom: 14px;
+  }
+
+  .fab-item span {
+    display: none;
+  }
+
+  .fab-item {
+    padding: 0 10px;
+  }
+}

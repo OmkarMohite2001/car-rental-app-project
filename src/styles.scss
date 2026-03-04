@@ -1,69 +1,335 @@
-
-// Include theming for Angular Material with `mat.theme()`.
-// This Sass mixin will define CSS variables that are used for styling Angular Material
-// components according to the Material 3 design spec.
-// Learn more about theming and how to use it for your application's
-// custom components at https://material.angular.dev/guide/theming
 @use '@angular/material' as mat;
 
 html {
-  @include mat.theme((
-    color: (
-      primary: mat.$azure-palette,
-      tertiary: mat.$blue-palette,
-    ),
-    typography: Roboto,
-    density: 0,
-  ));
+  @include mat.theme(
+    (
+      color: (
+        primary: mat.$cyan-palette,
+        tertiary: mat.$orange-palette,
+      ),
+      typography: Manrope,
+      density: 0,
+    )
+  );
+}
+
+:root,
+body.theme-dark {
+  --page-bg: #06131c;
+  --page-surface: #0c1d2a;
+  --panel-bg: rgba(12, 24, 35, 0.92);
+  --panel-border: #214158;
+  --panel-border-strong: #2b5470;
+  --table-row-hover: rgba(39, 198, 220, 0.08);
+  --card-glow: radial-gradient(
+    130% 130% at 100% 0%,
+    rgba(255, 138, 66, 0.22) 0%,
+    rgba(39, 198, 220, 0.16) 55%,
+    rgba(4, 12, 19, 0.95) 100%
+  );
+  --field-bg: rgba(255, 255, 255, 0.045);
+  --field-border: #30526a;
+  --field-border-hover: #3f6c87;
+  --field-border-focus: #27c6dc;
+  --field-focus-shadow: 0 0 0 3px rgba(39, 198, 220, 0.2);
+  --text-primary: #e7f4fb;
+  --text-soft: #c9dde8;
+  --text-muted: #92aec0;
+  --text-dim: #7e9caf;
+  --text-inverse: #07141d;
+  --accent-500: #27c6dc;
+  --accent-600: #ff8a42;
+  --title-gradient: linear-gradient(90deg, #ff8a42, #27c6dc);
+  --nav-bg: rgba(6, 19, 28, 0.86);
+  --nav-border: #214158;
+  --nav-link-hover: rgba(39, 198, 220, 0.11);
+  --nav-link-active-bg: rgba(255, 138, 66, 0.18);
+  --mega-bg: rgba(9, 22, 33, 0.97);
+  --quick-btn-bg: rgba(255, 255, 255, 0.06);
+  --quick-btn-hover-bg: rgba(255, 255, 255, 0.11);
+  --quick-btn-text: #e7f4fb;
+  --chip-neutral-bg: #2d4b61;
+  --chip-neutral-text: #d4e8f3;
+  --surface-elevated: #0a1824;
+  --thumb-border: rgba(211, 232, 244, 0.2);
+  --overlay-panel-bg: #112433;
+  --overlay-panel-text: #e7f4fb;
+  --ambient-glow-1: rgba(255, 138, 66, 0.24);
+  --ambient-glow-2: rgba(39, 198, 220, 0.22);
+  --input-glass: rgba(8, 26, 38, 0.75);
+}
+
+body.theme-light {
+  --page-bg: #ecf6f8;
+  --page-surface: #ffffff;
+  --panel-bg: rgba(255, 255, 255, 0.94);
+  --panel-border: #c8dae3;
+  --panel-border-strong: #aec7d4;
+  --table-row-hover: rgba(14, 132, 153, 0.09);
+  --card-glow: radial-gradient(
+    130% 130% at 100% 0%,
+    rgba(226, 120, 51, 0.18) 0%,
+    rgba(17, 153, 177, 0.15) 58%,
+    rgba(255, 255, 255, 0.97) 100%
+  );
+  --field-bg: #f4fafc;
+  --field-border: #b5c9d5;
+  --field-border-hover: #8fadb9;
+  --field-border-focus: #108aa0;
+  --field-focus-shadow: 0 0 0 3px rgba(16, 138, 160, 0.2);
+  --text-primary: #122631;
+  --text-soft: #2b4654;
+  --text-muted: #5c7b8a;
+  --text-dim: #708997;
+  --text-inverse: #f6fbfd;
+  --accent-500: #1199b1;
+  --accent-600: #e27833;
+  --title-gradient: linear-gradient(90deg, #e27833, #1199b1);
+  --nav-bg: rgba(255, 255, 255, 0.88);
+  --nav-border: #c8dae3;
+  --nav-link-hover: rgba(17, 153, 177, 0.1);
+  --nav-link-active-bg: rgba(226, 120, 51, 0.17);
+  --mega-bg: rgba(255, 255, 255, 0.97);
+  --quick-btn-bg: rgba(17, 153, 177, 0.08);
+  --quick-btn-hover-bg: rgba(17, 153, 177, 0.14);
+  --quick-btn-text: #153341;
+  --chip-neutral-bg: #d8e9f1;
+  --chip-neutral-text: #244454;
+  --surface-elevated: #e8f3f8;
+  --thumb-border: rgba(35, 67, 84, 0.2);
+  --overlay-panel-bg: #ffffff;
+  --overlay-panel-text: #17323f;
+  --ambient-glow-1: rgba(226, 120, 51, 0.2);
+  --ambient-glow-2: rgba(17, 153, 177, 0.2);
+  --input-glass: rgba(255, 255, 255, 0.84);
+}
+
+body.brand-ocean {
+  --accent-500: #27c6dc;
+  --accent-600: #ff8a42;
+  --title-gradient: linear-gradient(90deg, #ff8a42, #27c6dc);
+}
+
+body.brand-sand {
+  --accent-500: #f18f46;
+  --accent-600: #d45b49;
+  --title-gradient: linear-gradient(90deg, #d45b49, #f18f46);
+  --nav-link-active-bg: rgba(212, 91, 73, 0.2);
+  --ambient-glow-1: rgba(241, 143, 70, 0.25);
+  --ambient-glow-2: rgba(212, 91, 73, 0.22);
+}
+
+body.brand-slate {
+  --accent-500: #7da2ff;
+  --accent-600: #56d0cf;
+  --title-gradient: linear-gradient(90deg, #7da2ff, #56d0cf);
+  --nav-link-active-bg: rgba(125, 162, 255, 0.2);
+  --ambient-glow-1: rgba(125, 162, 255, 0.22);
+  --ambient-glow-2: rgba(86, 208, 207, 0.2);
+}
+
+html,
+body {
+  height: 100%;
 }
 
 body {
-  // Default the application to a light color theme. This can be changed to
-  // `dark` to enable the dark color theme, or to `light dark` to defer to the
-  // user's system settings.
-  color-scheme: light;
-
-  // Set a default background, font and text colors for the application using
-  // Angular Material's system-level CSS variables. Learn more about these
-  // variables at https://material.angular.dev/guide/system-variables
-  background-color: var(--mat-sys-surface);
-  color: var(--mat-sys-on-surface);
-  font: var(--mat-sys-body-medium);
-
-  // Reset the user agent margin.
   margin: 0;
+  min-height: 100vh;
+  background: var(--page-bg);
+  color: var(--text-primary);
+  font: var(--mat-sys-body-medium);
+  font-family: 'Manrope', 'Noto Sans', sans-serif;
+  transition: background-color 0.22s ease, color 0.22s ease;
+  position: relative;
+  overflow-x: hidden;
+  isolation: isolate;
 }
-/* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-/* ===== Global: make Angular Material form labels & input text white ===== */
+body::before,
+body::after {
+  content: '';
+  position: fixed;
+  pointer-events: none;
+  z-index: -1;
+  filter: blur(70px);
+}
 
-/* Input / Textarea value + caret */
+body::before {
+  width: 28rem;
+  height: 28rem;
+  top: -10rem;
+  right: -8rem;
+  background: var(--ambient-glow-1);
+}
+
+body::after {
+  width: 24rem;
+  height: 24rem;
+  left: -8rem;
+  bottom: -6rem;
+  background: var(--ambient-glow-2);
+}
+
+h1,
+h2,
+h3,
+h4,
+.brand-text {
+  font-family: 'Sora', 'Manrope', sans-serif;
+}
+
+button.mat-mdc-raised-button,
+button.mat-mdc-unelevated-button,
+button.mat-mdc-stroked-button {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+button.mat-mdc-raised-button:hover,
+button.mat-mdc-unelevated-button:hover,
+button.mat-mdc-stroked-button:hover {
+  transform: translateY(-1px);
+}
+
 .mat-mdc-form-field .mdc-text-field__input,
-.mat-mdc-form-field .mat-mdc-input-element {
-  color: #fff !important;
-  caret-color: #fff;
-}
-
-/* Mat-Select value/placeholder text */
+.mat-mdc-form-field .mat-mdc-input-element,
 .mat-mdc-form-field .mat-mdc-select-value,
-.mat-mdc-form-field .mat-mdc-select-value-text,
-.mat-mdc-form-field .mat-mdc-select-placeholder {
-  color: #fff !important;
+.mat-mdc-form-field .mat-mdc-select-value-text {
+  color: var(--text-primary) !important;
+  caret-color: var(--accent-500) !important;
 }
 
-/* Floating label (title) */
+.mat-mdc-form-field .mat-mdc-select-placeholder,
 .mat-mdc-form-field .mdc-floating-label,
 .mat-mdc-form-field .mdc-floating-label--float-above {
-  color: #fff !important;
-  opacity: 0.95; /* थोडा soft white, हवं नसेल तर ही ओळ काढा */
+  color: var(--text-muted) !important;
 }
 
-/* Placeholder (optional – थोडा फिकट) */
+.mat-mdc-form-field .mdc-text-field--outlined {
+  background: var(--field-bg);
+  border-radius: 10px;
+}
+
 .mat-mdc-form-field input::placeholder,
 .mat-mdc-form-field textarea::placeholder {
-  color: rgba(255, 255, 255, 0.65);
+  color: var(--text-dim);
 }
 
-/* काहीही इतर बदल नाही: outline/border/bg/Icons जसंच्या तसं राहतील */
+.mat-mdc-form-field .mdc-notched-outline__leading,
+.mat-mdc-form-field .mdc-notched-outline__notch,
+.mat-mdc-form-field .mdc-notched-outline__trailing {
+  border-color: var(--field-border) !important;
+}
+
+.mat-mdc-form-field:hover .mdc-notched-outline__leading,
+.mat-mdc-form-field:hover .mdc-notched-outline__notch,
+.mat-mdc-form-field:hover .mdc-notched-outline__trailing {
+  border-color: var(--field-border-hover) !important;
+}
+
+.mat-mdc-form-field.mat-focused .mdc-notched-outline__leading,
+.mat-mdc-form-field.mat-focused .mdc-notched-outline__notch,
+.mat-mdc-form-field.mat-focused .mdc-notched-outline__trailing {
+  border-color: var(--field-border-focus) !important;
+  box-shadow: var(--field-focus-shadow);
+}
+
+.cdk-overlay-pane .mat-mdc-select-panel,
+.cdk-overlay-pane .mat-mdc-menu-panel,
+.cdk-overlay-pane .mat-mdc-autocomplete-panel {
+  background: var(--overlay-panel-bg) !important;
+  color: var(--overlay-panel-text) !important;
+}
+
+.cdk-overlay-pane .mat-mdc-option .mdc-list-item__primary-text,
+.cdk-overlay-pane .mat-mdc-menu-content .mat-mdc-menu-item .mdc-list-item__primary-text {
+  color: var(--overlay-panel-text) !important;
+}
+
+.cdk-overlay-pane .mat-mdc-option:hover,
+.cdk-overlay-pane .mat-mdc-menu-item:hover {
+  background: var(--table-row-hover) !important;
+}
+
+.table-wrap {
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.table-wrap table {
+  min-width: 640px;
+}
+
+@media (max-width: 768px) {
+  .dash-wrap .dash-head,
+  .cars-wrap .head,
+  .bk-wrap .head,
+  .cust-wrap .head,
+  .cm-wrap .head,
+  .br-wrap .head,
+  .mt-wrap .head,
+  .ri-wrap .head,
+  .rep-wrap .head,
+  .ur-wrap .head,
+  .profile-wrap .head {
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 10px;
+  }
+
+  .dash-wrap .dash-head .actions,
+  .cars-wrap .head-actions,
+  .bk-wrap .head-actions,
+  .cm-wrap .head-actions,
+  .br-wrap .head-actions,
+  .mt-wrap .head-actions,
+  .rep-wrap .head-actions,
+  .ur-wrap .head-actions,
+  .profile-wrap .head-actions {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .dash-wrap .dash-head .actions > button,
+  .cars-wrap .head-actions > button,
+  .bk-wrap .head-actions > button,
+  .cm-wrap .head-actions > button,
+  .br-wrap .head-actions > button,
+  .mt-wrap .head-actions > button,
+  .rep-wrap .head-actions > button,
+  .ur-wrap .head-actions > button,
+  .profile-wrap .head-actions > button {
+    flex: 1 1 160px;
+  }
+
+  .dash-wrap .panel-head,
+  .bk-wrap .panel-head,
+  .cust-wrap .panel-head,
+  .cm-wrap .panel-head,
+  .br-wrap .panel-head,
+  .mt-wrap .panel-head,
+  .ri-wrap .panel-head,
+  .rep-wrap .panel-head,
+  .ur-wrap .panel-head,
+  .profile-wrap .panel-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .br-wrap .panel-head .right,
+  .mt-wrap .panel-head .right,
+  .rep-wrap .panel-head .right,
+  .ur-wrap .panel-head .right,
+  .profile-wrap .panel-head .right {
+    width: 100%;
+  }
+
+  .ur-wrap .role-head {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

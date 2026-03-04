@@ -10,6 +10,8 @@ import { MatTableModule } from '@angular/material/table';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDividerModule } from '@angular/material/divider';
+import { FleetHealth } from '../../components/dashboard/fleet-health/fleet-health';
+import { ActivityTimeline } from '../../components/dashboard/activity-timeline/activity-timeline';
 
 type Status = 'confirmed' | 'ongoing' | 'cancelled';
 
@@ -26,7 +28,8 @@ interface BookingRow {
   imports: [CommonModule,
     MatCardModule, MatIconModule, MatButtonModule,
     MatChipsModule, MatProgressBarModule, MatTableModule,
-    MatMenuModule, MatTooltipModule, MatDividerModule],
+    MatMenuModule, MatTooltipModule, MatDividerModule,
+    FleetHealth, ActivityTimeline],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss'
 })

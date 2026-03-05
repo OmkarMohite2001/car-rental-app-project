@@ -13,6 +13,13 @@
 .sub { color:var(--text-muted); font-size:12px; }
 .head-actions { display:flex; gap:8px; }
 
+@media (max-width: 768px) {
+  .head h1 {
+    font-size: 22px;
+  }
+}
+
+
 /* Panels */
 .panel { background: var(--panel-bg); border:1px solid var(--panel-border); border-radius:12px; }
 .panel-head { display:flex; align-items:center; justify-content:space-between; padding:12px 14px; border-bottom:1px solid var(--panel-border); }
@@ -63,6 +70,22 @@ tr.mat-row:hover { background: var(--table-row-hover); }
 .images .up-row{ display:flex; gap:8px; align-items:center; margin-bottom:8px; }
 .images .thumbs{ display:flex; gap:8px; flex-wrap:wrap; }
 .images .thumbs img{ width:84px; height:60px; object-fit:cover; border-radius:8px; border:1px solid var(--thumb-border); }
+
+.form-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+@media (max-width: 768px) {
+  .form-actions {
+    flex-direction: column;
+  }
+  .form-actions button {
+    width: 100%;
+  }
+}
+
 
 
 

@@ -1,7 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 
 export type ThemeMode = 'dark' | 'light';
-export type BrandPreset = 'ocean' | 'sand' | 'slate';
+export type BrandPreset = 'ocean' | 'sand' | 'slate' | 'sunset' | 'aurora';
 
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
@@ -84,7 +84,13 @@ export class ThemeService {
     }
 
     const storedBrand = window.localStorage.getItem(this.brandStorageKey);
-    if (storedBrand === 'ocean' || storedBrand === 'sand' || storedBrand === 'slate') {
+    if (
+      storedBrand === 'ocean' ||
+      storedBrand === 'sand' ||
+      storedBrand === 'slate' ||
+      storedBrand === 'sunset' ||
+      storedBrand === 'aurora'
+    ) {
       return storedBrand;
     }
     return 'ocean';
@@ -135,6 +141,8 @@ export class ThemeService {
     document.body.classList.toggle('brand-ocean', brand === 'ocean');
     document.body.classList.toggle('brand-sand', brand === 'sand');
     document.body.classList.toggle('brand-slate', brand === 'slate');
+    document.body.classList.toggle('brand-sunset', brand === 'sunset');
+    document.body.classList.toggle('brand-aurora', brand === 'aurora');
     document.documentElement.setAttribute('data-brand', brand);
   }
 }

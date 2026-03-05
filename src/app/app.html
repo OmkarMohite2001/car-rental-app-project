@@ -1,1 +1,8 @@
+@if (loaderService.active()) {
+  <app-global-loader
+    [label]="loaderService.label()"
+    [detail]="loaderService.detail()"
+  ></app-global-loader>
+}
+
 <router-outlet />

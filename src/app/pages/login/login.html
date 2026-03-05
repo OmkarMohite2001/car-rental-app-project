@@ -44,6 +44,12 @@
         Live KPI tracking and reports
       </div>
     </div>
+
+    <div class="value-strip">
+      <span>Multi-Branch Ops</span>
+      <span>Role-Based Security</span>
+      <span>Audit Friendly</span>
+    </div>
   </section>
 
   <section class="auth-side">
@@ -71,6 +77,10 @@
       <h2 *ngIf="isLogin()">Sign In to RentX</h2>
       <h2 *ngIf="activeTab() === 'register'">Create Account</h2>
       <h2 *ngIf="isRecover()">Recover Access</h2>
+      <p *ngIf="isLogin()">Built for modern rental businesses that need speed, control, and reliability.</p>
+      <p *ngIf="activeTab() === 'register'">
+        Create a secure workspace account for your rental operations team.
+      </p>
       <p *ngIf="isRecover()">Reset your password in two simple steps.</p>
     </div>
 
@@ -118,46 +128,105 @@
 
     <form
       class="auth-form"
-      [class.active]="activeTab() === 'register'"
+      [class.active]="isRegisterForm()"
       [formGroup]="registerForm"
       (ngSubmit)="onRegister()"
     >
-      <label class="field">
-        <span>Full Name</span>
-        <div class="input-wrap">
-          <span class="material-icons">badge</span>
-          <input type="text" placeholder="Your full name" formControlName="fullName" />
-        </div>
-      </label>
-      <div class="err" *ngIf="hasErr(registerForm.get('fullName'), 'required')">Full name is required.</div>
-      <div class="err" *ngIf="hasErr(registerForm.get('fullName'), 'minlength')">Min 3 characters required.</div>
+      <div class="field-grid two-col">
+        <label class="field">
+          <span>First Name *</span>
+          <div class="input-wrap">
+            <span class="material-icons">badge</span>
+            <input type="text" placeholder="Rahul" formControlName="firstName" />
+          </div>
+          <div class="err" *ngIf="hasErr(registerForm.get('firstName'), 'required')">
+            First name is required.
+          </div>
+        </label>
+
+        <label class="field">
+          <span>Last Name *</span>
+          <div class="input-wrap">
+            <span class="material-icons">badge</span>
+            <input type="text" placeholder="Sharma" formControlName="lastName" />
+          </div>
+          <div class="err" *ngIf="hasErr(registerForm.get('lastName'), 'required')">
+            Last name is required.
+          </div>
+        </label>
+      </div>
 
       <label class="field">
-        <span>Email</span>
+        <span>Email *</span>
         <div class="input-wrap">
           <span class="material-icons">mail</span>
-          <input type="email" placeholder="name@example.com" formControlName="email" />
+          <input type="email" placeholder="rahul@example.com" formControlName="email" />
         </div>
       </label>
       <div class="err" *ngIf="hasErr(registerForm.get('email'), 'required')">Email is required.</div>
       <div class="err" *ngIf="hasErr(registerForm.get('email'), 'email')">Enter a valid email.</div>
 
       <label class="field">
-        <span>Password</span>
+        <span>Mobile Number *</span>
         <div class="input-wrap">
-          <span class="material-icons">password</span>
-          <input
-            [type]="showRegisterPassword() ? 'text' : 'password'"
-            placeholder="Create password"
-            formControlName="password"
-          />
-          <button type="button" class="toggle-pass" (click)="togglePassword('register')">
-            <span class="material-icons">{{ showRegisterPassword() ? 'visibility_off' : 'visibility' }}</span>
-          </button>
+          <span class="material-icons">call</span>
+          <input type="text" maxlength="10" placeholder="9876543210" formControlName="mobileNumber" />
         </div>
       </label>
-      <div class="err" *ngIf="hasErr(registerForm.get('password'), 'required')">Password is required.</div>
-      <div class="err" *ngIf="hasErr(registerForm.get('password'), 'minlength')">Min 6 characters required.</div>
+      <div class="err" *ngIf="hasErr(registerForm.get('mobileNumber'), 'required')">
+        Mobile number is required.
+      </div>
+      <div class="err" *ngIf="hasErr(registerForm.get('mobileNumber'), 'pattern')">
+        Enter a valid 10-digit Indian mobile number.
+      </div>
+
+      <div class="field-grid two-col">
+        <label class="field">
+          <span>Password *</span>
+          <div class="input-wrap">
+            <span class="material-icons">lock</span>
+            <input
+              [type]="showRegisterPassword() ? 'text' : 'password'"
+              placeholder="Create password"
+              formControlName="password"
+            />
+            <button type="button" class="toggle-pass" (click)="togglePassword('register')">
+              <span class="material-icons">{{
+                showRegisterPassword() ? 'visibility_off' : 'visibility'
+              }}</span>
+            </button>
+          </div>
+          <div class="err" *ngIf="hasErr(registerForm.get('password'), 'required')">
+            Password is required.
+          </div>
+          <div class="err" *ngIf="hasErr(registerForm.get('password'), 'minlength')">
+            Min 6 characters required.
+          </div>
+        </label>
+
+        <label class="field">
+          <span>Confirm Password *</span>
+          <div class="input-wrap">
+            <span class="material-icons">task_alt</span>
+            <input
+              [type]="showRegisterConfirm() ? 'text' : 'password'"
+              placeholder="Re-enter password"
+              formControlName="confirmPassword"
+            />
+            <button type="button" class="toggle-pass" (click)="togglePassword('confirm')">
+              <span class="material-icons">{{
+                showRegisterConfirm() ? 'visibility_off' : 'visibility'
+              }}</span>
+            </button>
+          </div>
+          <div class="err" *ngIf="hasErr(registerForm.get('confirmPassword'), 'required')">
+            Confirm password is required.
+          </div>
+        </label>
+      </div>
+      <div class="err" *ngIf="registerForm.touched && registerForm.hasError('mismatch')">
+        Password and confirm password must match.
+      </div>
 
       <div class="strength">
         <div class="bar">
@@ -167,27 +236,115 @@
       </div>
 
       <label class="field">
-        <span>Confirm Password</span>
+        <span>Driving License Number *</span>
         <div class="input-wrap">
-          <span class="material-icons">task_alt</span>
-          <input
-            [type]="showRegisterConfirm() ? 'text' : 'password'"
-            placeholder="Re-enter password"
-            formControlName="confirmPassword"
-          />
-          <button type="button" class="toggle-pass" (click)="togglePassword('confirm')">
-            <span class="material-icons">{{ showRegisterConfirm() ? 'visibility_off' : 'visibility' }}</span>
-          </button>
+          <span class="material-icons">credit_card</span>
+          <input type="text" placeholder="DL0420110149646" formControlName="drivingLicenseNumber" />
         </div>
       </label>
-      <div class="err" *ngIf="hasErr(registerForm.get('confirmPassword'), 'required')">
-        Confirm password is required.
-      </div>
-      <div class="err" *ngIf="registerForm.touched && registerForm.hasError('mismatch')">
-        Passwords do not match.
+      <div class="err" *ngIf="hasErr(registerForm.get('drivingLicenseNumber'), 'required')">
+        Driving license number is required.
       </div>
 
-      <button type="submit" class="submit-btn alt">Create Account</button>
+      <label class="field">
+        <span>Date Of Birth</span>
+        <div class="input-wrap">
+          <span class="material-icons">calendar_month</span>
+          <input type="date" formControlName="dateOfBirth" />
+        </div>
+      </label>
+      <div class="err" *ngIf="registerForm.touched && registerForm.hasError('underage')">
+        Age must be 18 or above.
+      </div>
+
+      <label class="field">
+        <span>Address</span>
+        <div class="input-wrap input-area">
+          <span class="material-icons">home</span>
+          <textarea rows="2" placeholder="Koregaon Park" formControlName="address"></textarea>
+        </div>
+      </label>
+
+      <div class="field-grid three-col">
+        <label class="field">
+          <span>City</span>
+          <div class="input-wrap">
+            <span class="material-icons">location_city</span>
+            <input type="text" placeholder="Pune" formControlName="city" />
+          </div>
+        </label>
+
+        <label class="field">
+          <span>State</span>
+          <div class="input-wrap">
+            <span class="material-icons">map</span>
+            <input type="text" placeholder="MH" formControlName="state" />
+          </div>
+        </label>
+
+        <label class="field">
+          <span>Pincode</span>
+          <div class="input-wrap">
+            <span class="material-icons">pin_drop</span>
+            <input type="text" maxlength="6" placeholder="411001" formControlName="pincode" />
+          </div>
+          <div class="err" *ngIf="hasErr(registerForm.get('pincode'), 'pattern')">
+            Enter valid 6-digit pincode.
+          </div>
+        </label>
+      </div>
+
+      <button type="submit" class="submit-btn alt" [disabled]="isRegisterSubmitting()">
+        {{ isRegisterSubmitting() ? 'Creating Account...' : 'Create Account' }}
+      </button>
+    </form>
+
+    <form
+      class="auth-form verify-form"
+      [class.active]="isRegisterVerify()"
+      [formGroup]="verifyEmailForm"
+      (ngSubmit)="onVerifyEmail()"
+    >
+      <div class="verify-head">
+        <h3>Verify Email</h3>
+        <p>We have sent a 6-digit code to your registered email.</p>
+      </div>
+
+      <label class="field">
+        <span>Email *</span>
+        <div class="input-wrap">
+          <span class="material-icons">mail</span>
+          <input type="email" formControlName="email" readonly />
+        </div>
+      </label>
+
+      <label class="field">
+        <span>Verification Code *</span>
+        <div class="input-wrap">
+          <span class="material-icons">pin</span>
+          <input type="text" maxlength="6" placeholder="123456" formControlName="code" />
+        </div>
+      </label>
+      <div class="err" *ngIf="hasErr(verifyEmailForm.get('code'), 'required')">Code is required.</div>
+      <div class="err" *ngIf="hasErr(verifyEmailForm.get('code'), 'pattern')">
+        Enter a valid 6-digit code.
+      </div>
+
+      <div class="recover-actions">
+        <button type="button" class="ghost-btn" (click)="backToRegisterForm()">Edit Details</button>
+        <button
+          type="button"
+          class="ghost-btn"
+          [disabled]="resendCooldown() > 0 || isRegisterSubmitting()"
+          (click)="onResendVerificationCode()"
+        >
+          {{ resendCooldown() > 0 ? 'Resend in ' + resendCooldown() + 's' : 'Resend Code' }}
+        </button>
+      </div>
+
+      <button type="submit" class="submit-btn alt" [disabled]="isVerifyingEmail()">
+        {{ isVerifyingEmail() ? 'Verifying...' : 'Verify Email' }}
+      </button>
     </form>
 
     <form
@@ -281,5 +438,10 @@
         <button type="submit" class="submit-btn alt">Reset Password</button>
       </div>
     </form>
+
+    <div class="auth-foot">
+      <span class="material-icons">verified</span>
+      Trusted workflow for daily fleet and booking operations.
+    </div>
   </section>
 </div>

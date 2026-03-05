@@ -1,0 +1,166 @@
+:host {
+  position: fixed;
+  inset: 0;
+  z-index: 1300;
+}
+
+.loader-overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background:
+    radial-gradient(circle at 18% 22%, rgba(24, 169, 197, 0.25), transparent 42%),
+    radial-gradient(circle at 78% 78%, rgba(255, 138, 66, 0.23), transparent 45%),
+    rgba(6, 17, 25, 0.74);
+  backdrop-filter: blur(10px);
+}
+
+.loader-card {
+  width: min(430px, 100%);
+  border-radius: 20px;
+  border: 1px solid rgba(219, 237, 246, 0.33);
+  background: linear-gradient(160deg, rgba(7, 25, 38, 0.96), rgba(11, 34, 49, 0.94));
+  box-shadow: 0 24px 56px rgba(0, 0, 0, 0.38);
+  padding: 24px 22px 20px;
+  color: #e7f4fb;
+}
+
+.road-wrap {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  height: 74px;
+  margin-bottom: 14px;
+  border: 1px solid rgba(64, 102, 122, 0.6);
+  background:
+    linear-gradient(to top, rgba(13, 28, 40, 0.94) 0 26px, rgba(23, 44, 59, 0.92) 26px),
+    linear-gradient(120deg, rgba(20, 168, 196, 0.22), rgba(255, 138, 66, 0.2));
+}
+
+.road-lines {
+  position: absolute;
+  left: -120%;
+  right: 0;
+  top: 40px;
+  height: 4px;
+  background-image: repeating-linear-gradient(
+    to right,
+    rgba(227, 243, 251, 0.94) 0 26px,
+    transparent 26px 48px
+  );
+  animation: laneMove 0.95s linear infinite;
+}
+
+.car {
+  position: absolute;
+  left: 14%;
+  bottom: 15px;
+  width: 110px;
+  height: 40px;
+  animation: carBounce 0.5s ease-in-out infinite alternate;
+}
+
+.car-icon {
+  position: absolute;
+  left: 16px;
+  bottom: 3px;
+  font-size: 34px;
+  width: 34px;
+  height: 34px;
+  color: #53d0e4;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.45));
+}
+
+.wheel {
+  position: absolute;
+  bottom: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #071620;
+  border: 2px solid #7bc4d2;
+  animation: wheelSpin 0.34s linear infinite;
+}
+
+.wheel.rear {
+  left: 18px;
+}
+
+.wheel.front {
+  left: 44px;
+}
+
+h2 {
+  margin: 0;
+  font-size: clamp(1.06rem, 1.5vw, 1.22rem);
+  font-family: 'Sora', 'Manrope', sans-serif;
+  letter-spacing: 0.02em;
+}
+
+p {
+  margin: 6px 0 0;
+  color: #b7d2df;
+  font-size: 0.9rem;
+}
+
+.progress-rail {
+  margin-top: 14px;
+  width: 100%;
+  height: 8px;
+  border-radius: 999px;
+  overflow: hidden;
+  border: 1px solid rgba(105, 145, 166, 0.52);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.progress-rail span {
+  display: block;
+  width: 38%;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #ff8a42, #27c6dc);
+  animation: loadingSweep 1.35s ease-in-out infinite;
+}
+
+@keyframes laneMove {
+  to {
+    transform: translateX(55%);
+  }
+}
+
+@keyframes carBounce {
+  to {
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes wheelSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes loadingSweep {
+  0% {
+    transform: translateX(-130%);
+  }
+  55% {
+    transform: translateX(160%);
+  }
+  100% {
+    transform: translateX(160%);
+  }
+}
+
+@media (max-width: 600px) {
+  .loader-card {
+    padding: 18px;
+    border-radius: 16px;
+  }
+
+  .road-wrap {
+    height: 66px;
+  }
+}

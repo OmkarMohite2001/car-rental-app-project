@@ -1,4 +1,4 @@
-import { Component, signal, computed } from '@angular/core';
+import { Component, signal, computed, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { MatCardModule } from '@angular/material/card';
@@ -12,6 +12,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDividerModule } from '@angular/material/divider';
 import { FleetHealth } from '../../components/dashboard/fleet-health/fleet-health';
 import { ActivityTimeline } from '../../components/dashboard/activity-timeline/activity-timeline';
+import { LoaderService } from '../../core/loader.service';
 
 type Status = 'confirmed' | 'ongoing' | 'cancelled';
 
@@ -33,7 +34,13 @@ interface BookingRow {
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss'
 })
-export class Dashboard {
+export class Dashboard implements OnInit {
+  private readonly loader = inject(LoaderService);
+
+  ngOnInit() {
+    this.loader.hide();
+  }
+
  // ===== KPIs (mock) =====
   totalRevenueToday = signal(128_500); // ₹
   activeRentals     = signal(23);

@@ -12,8 +12,29 @@
 .sub { color:var(--text-muted); font-size:12px; }
 .head-actions { display:flex; gap:8px; }
 
+@media (max-width: 768px) {
+  .head h1 {
+    font-size: 22px;
+  }
+}
+
+
 .filters { background: var(--panel-bg); border:1px solid var(--panel-border); padding:12px; margin-bottom:12px; border-radius:12px; }
 .quick { display:flex; gap:6px; margin-top:4px; }
+
+@media (max-width: 768px) {
+  .filters .row {
+    flex-direction: column;
+  }
+  .filters .row .col-12,
+  .filters .row .col-6 {
+    width: 100%;
+  }
+  .quick {
+    flex-wrap: wrap;
+  }
+}
+
 
 .bulk { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
 .bulk .spacer { flex:1 1 auto; }

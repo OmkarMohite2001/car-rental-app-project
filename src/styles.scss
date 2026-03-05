@@ -128,6 +128,24 @@ body.brand-slate {
   --ambient-glow-2: rgba(86, 208, 207, 0.2);
 }
 
+body.brand-sunset {
+  --accent-500: #f58b69;
+  --accent-600: #d4637c;
+  --title-gradient: linear-gradient(90deg, #f58b69, #d4637c);
+  --nav-link-active-bg: rgba(245, 139, 105, 0.2);
+  --ambient-glow-1: rgba(245, 139, 105, 0.22);
+  --ambient-glow-2: rgba(212, 99, 124, 0.2);
+}
+
+body.brand-aurora {
+  --accent-500: #69c8f5;
+  --accent-600: #7c63d4;
+  --title-gradient: linear-gradient(90deg, #69c8f5, #7c63d4);
+  --nav-link-active-bg: rgba(105, 200, 245, 0.2);
+  --ambient-glow-1: rgba(105, 200, 245, 0.22);
+  --ambient-glow-2: rgba(124, 99, 212, 0.2);
+}
+
 html,
 body {
   height: 100%;

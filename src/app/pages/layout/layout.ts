@@ -52,6 +52,8 @@ export class Layout {
     { id: 'ocean', label: 'Ocean' },
     { id: 'sand', label: 'Sand' },
     { id: 'slate', label: 'Slate' },
+    { id: 'sunset', label: 'Sunset' },
+    { id: 'aurora', label: 'Aurora' },
   ];
 
   toggle() {
